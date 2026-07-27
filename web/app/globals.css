@@ -330,10 +330,12 @@ button {
   pointer-events: none;
 }
 
+/* Logo left, nav dead-center in the bar (equal 1fr flanks keep the middle
+   track on the true axis regardless of logo width). */
 .masthead__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   height: 3.5rem;
 }
@@ -349,6 +351,8 @@ button {
   font-weight: 700;
   color: var(--ink);
   flex: none;
+  /* Keep the clickable area on the mark itself, not the whole grid column. */
+  justify-self: start;
 }
 
 .wordmark__mark {
@@ -364,13 +368,11 @@ button {
   gap: 0.25rem;
   overflow-x: auto;
   scrollbar-width: none;
-  /* A flex item defaults to min-width:auto and will not shrink below its
-     content, so without this the nav pushes the whole page wider than the
-     viewport on narrow screens. It must scroll inside itself instead. */
+  /* An item defaults to min-width:auto and will not shrink below its content,
+     so without this the nav pushes the whole page wider than the viewport on
+     narrow screens. It must scroll inside itself instead. */
   min-width: 0;
-  /* Anchor the links to the right edge (auto margin, not flex-grow — a grown
-     nav starts its links mid-bar and leaves dead space on the right). */
-  margin-left: auto;
+  max-width: 100%;
   justify-content: center;
 }
 
