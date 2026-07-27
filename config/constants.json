@@ -20,7 +20,7 @@
   },
   "wallets": {
     "_warning": "BULL address must NOT appear on any published site/repo/thread until x-TODO.md v0 gates close. OPS is a hot keypair for now \u2014 owner should migrate its key to hardware/Squads custody before meaningful funds accrue.",
-    "bull": "REPLACE_WITH_BURN_WALLET_AT_LAUNCH",
+    "bull": "g57z9QF1U96bJRuxiVqWmNQbaGY2fJFwKHpX471BULL",
     "ops": "zF99gG1g19gfN83522e6i5THHdPpYxpAP2ynA79dPVE"
   },
   "split": {
