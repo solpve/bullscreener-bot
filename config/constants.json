@@ -1,0 +1,116 @@
+{
+  "_comment": "Single source of truth for bot/ and web/. Do not duplicate these values in code \u2014 import this file.",
+  "ansem": {
+    "mint": "9cRCn9rGT8V2imeM2BaKs13yhMEais3ruM3rPvTGpump",
+    "name": "The Black Bull",
+    "symbol": "ANSEM",
+    "decimals": 6,
+    "launchSupplyRaw": "1000000000000000",
+    "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "sharingConfigPda": "9ENSWnedBEAvVB7jJKZrLRZ9vuVuJdBE7uJt2oAsG1jr",
+    "graduatedPumpSwapPool": "FnzKY6x7entQ1eR3D225dQyT7ybfka4PskBMQhb8L3CC"
+  },
+  "programs": {
+    "pump": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+    "pumpAmm": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+    "pumpFees": "pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ",
+    "token2022": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "wsolMint": "So11111111111111111111111111111111111111112",
+    "donationRelay": "RLAYHr9TRFcKB2ubYQhspcnXiaGpaVzNQvHytt47RZu"
+  },
+  "wallets": {
+    "_warning": "BULL address must NOT appear on any published site/repo/thread until x-TODO.md v0 gates close. OPS is a hot keypair for now \u2014 owner should migrate its key to hardware/Squads custody before meaningful funds accrue.",
+    "bull": "REPLACE_WITH_BURN_WALLET_AT_LAUNCH",
+    "ops": "zF99gG1g19gfN83522e6i5THHdPpYxpAP2ynA79dPVE"
+  },
+  "split": {
+    "_decided": "2026-07-27 by the owner: SINGLE-ADDRESS ROUTING. shareholders below is the FLAGSHIP ask \u2014 the full-route tier: exactly ONE shareholder, the BULL wallet at 10000 bps, admin_revoked = true. AMENDED 2026-07-28 (see listing.tiers): a project tier also lists at >= 2000 bps to BULL alongside the team's own shareholders. What the protocol enforces, and the only split claim that may ever be made, is that the committed share of creator fees lands in the burn wallet and the routing is irreversible by the deployer. The ops fee is NOT an on-chain shareholder anywhere \u2014 see the top-level opsFee block.",
+    "shareholders": [
+      {
+        "wallet": "bull",
+        "bps": 10000
+      }
+    ],
+    "rebate": {
+      "enabled": false,
+      "coinMcapThresholdUsd": 5000000,
+      "opsRetainedBpsAboveThreshold": 100,
+      "_policy": "SUPERSEDED + DORMANT \u2014 the rebate assumed ops was an on-chain shareholder, which single-address routing removed. Hard-wired off: nothing is computed, accrued, owed or advertised, and loadConfig refuses to start if this is ever flipped true. Retained only so the dormant keeper code stays type-safe."
+    }
+  },
+  "opsFee": {
+    "bps": 500,
+    "recipient": "zF99gG1g19gfN83522e6i5THHdPpYxpAP2ynA79dPVE",
+    "enforcement": "keeper",
+    "appliedTo": "per-cycle processed lamports, before swap",
+    "_honesty": "NOT protocol-enforced \u2014 never describe it as such, and never claim \"we cannot take more than 5%\". The open-source keeper transfers this cut from the BULL wallet to the recipient as a plain SystemProgram transfer at the START of every buyback cycle, before the swap; the remaining 9500 bps is swapped to ANSEM and burned. It is disclosed, taken by published code, and visible on-chain every cycle. `recipient` must equal wallets.ops.",
+    "_recipientNote": "Same wallet as wallets.ops; duplicated here because this is a keeper payout target, not a shareholder. loadConfig fails loudly if the two ever drift."
+  },
+  "keeper": {
+    "triggerSol": 5,
+    "reserveSol": 0.05,
+    "reserveAlertSol": 0.02,
+    "maxSolPerSwap": 200,
+    "slippageBpsFallback": 150,
+    "maxPriceImpactPct": 2,
+    "maxRefPriceDeviationPct": 10,
+    "priorityLevel": "high",
+    "priorityMaxLamports": 1000000,
+    "pollIntervalSec": 45,
+    "crankIntervalSec": 900
+  },
+  "listing": {
+    "minMarketCapUsd": 200000,
+    "minHolders": 1000,
+    "maxFreshWalletPct": 15,
+    "freshWalletStatus": "pending_v1_1",
+    "requireAdminRevoked": true,
+    "requireStatusActive": true,
+    "excludeCashbackCoins": true,
+    "requireSoleShareholder": false,
+    "minShareBpsToUs": 2000,
+    "tiers": {
+      "_decided": "2026-07-28 by the owner: TWO LISTING TIERS. Full route (10000 bps, sole recipient) is the flagship ask for would-be cashback coins and the only tier the leaderboard podium crowns. Project tier (>= 2000 bps alongside the team's own shareholders) is for projects/memes that keep the rest. minShareBpsToUs above is the listing FLOOR (the project-tier minimum); the keeper cranks and takes its 5% of whatever arrives regardless of tier.",
+      "fullBps": 10000,
+      "partialMinBps": 2000
+    }
+  },
+  "sharingConfigLayout": {
+    "discriminator": [
+      216,
+      74,
+      9,
+      0,
+      56,
+      140,
+      93,
+      75
+    ],
+    "discriminatorB58": "dBH23jPD3C6",
+    "shareholder0Offset": 80,
+    "shareholderSize": 34,
+    "maxShareholders": 10
+  },
+  "pool": {
+    "coinCreatorOffset": 211,
+    "canonicalPoolSizeBytes": 301
+  },
+  "endpoints": {
+    "jupiterBase": "https://api.jup.ag",
+    "jupiterQuote": "/swap/v1/quote",
+    "jupiterSwap": "/swap/v1/swap",
+    "dexscreenerBatch": "https://api.dexscreener.com/tokens/v1/solana/",
+    "pumpFrontendApi": "https://frontend-api-v3.pump.fun/coins/",
+    "defaultRpc": "https://api.mainnet-beta.solana.com"
+  },
+  "pumpFeesAdmin": {
+    "_comment": "Diligence-verified 2026-07-26 (docs/DILIGENCE.md): reset authority OVERRIDES admin_revoked \u2014 disclose everywhere; config admin can mutate fee tiers, so never hardcode bps, read get_fees at runtime.",
+    "resetAuthority": "UqN2p5bAzBqYdHXcgB6WLtuVrdvmy9JSAtgqZb3CMKw",
+    "feeConfigAdmin": "FFWtrEQ4B4PKQoVuHYzZq8FabGkVatYzDpEVHsK5rrhF"
+  },
+  "distribution": {
+    "rentExemptZeroByteLamports": 890880,
+    "minShareholderPrefundLamports": 890880,
+    "_comment": "With single-address routing there is exactly ONE shareholder (BULL at 10000 bps), so the distribute dust floor is simply rentExemptZeroByteLamports — 890,880 lamports — and stands alone. The old unfunded-shareholder multiplier (10000/its_bps, which put an empty 500-bps ops wallet at 18,708,480) no longer applies: there is no second shareholder to leave unfunded. LAUNCH CHECKLIST: pre-fund BULL with >= 890,880 lamports before the first distribute."
+  }
+}
