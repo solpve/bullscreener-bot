@@ -729,11 +729,14 @@ button {
 
 @media (prefers-reduced-motion: no-preference) {
   .hero__bull img {
-    animation: bullfloat 7s ease-in-out infinite alternate;
+    animation: bullfloat 5.5s ease-in-out infinite alternate;
+    /* own compositor layer — at this travel speed, without it the float
+       quantizes into visible pixel steps */
+    will-change: transform;
   }
 
   .hero__bull::before {
-    animation: heartbeat 7s ease-in-out infinite;
+    animation: heartbeat 5.5s ease-in-out infinite;
   }
 }
 
