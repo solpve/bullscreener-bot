@@ -1,13 +1,23 @@
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import logoMark from '@/public/images/logo-mark.png';
+import { Unbounded } from 'next/font/google';
+import logoMark from '@/public/images/logo-mark-v2.png';
 import './globals.css';
 import Nav from '@/components/Nav';
-import ThemeToggle from '@/components/ThemeToggle';
 import Footer from '@/components/Footer';
 import { ANSEM, PRE_EXISTING_BURNED_ANSEM } from '@/lib/constants';
 import { formatAmount } from '@/lib/format';
+
+/**
+ * Display face for headlines and section titles — globals.css reads it as
+ * --font-display and falls back to the mono stack if it ever fails to load.
+ */
+const display = Unbounded({
+  subsets: ['latin'],
+  weight: ['500', '700', '800'],
+  variable: '--font-display',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bullscreener.xyz'),
@@ -27,7 +37,7 @@ export const metadata: Metadata = {
       'Coins routing pump.fun creator fees — irreversibly by the deployer — into $ANSEM buybacks and burns, with the on-chain proof for every listing criterion.',
     images: [
       {
-        url: '/images/og-card.png',
+        url: '/images/og-card-v2.png',
         width: 1200,
         height: 630,
         alt: 'The bullscreener bull mark',
@@ -39,31 +49,21 @@ export const metadata: Metadata = {
     title: 'bullscreener — creator fees routed to burns, proved on-chain',
     description:
       'Coins routing pump.fun creator fees — irreversibly by the deployer — into $ANSEM buybacks and burns, with the on-chain proof for every listing criterion.',
-    images: ['/images/og-card.png'],
+    images: ['/images/og-card-v2.png'],
   },
 };
 
+/* Dark-only by design (owner decision 2026-07-28) — the terminal has one
+   look. No theme toggle, no prefers-color-scheme branching. */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#101a26' },
-    { media: '(prefers-color-scheme: light)', color: '#e9eef3' },
-  ],
+  themeColor: '#070d16',
 };
-
-/**
- * Applied before first paint so an explicit theme choice never flashes.
- * Absence of the attribute deliberately falls through to prefers-color-scheme.
- */
-const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('bullscreener-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
-      </head>
+    <html lang="en" className={display.variable}>
       <body>
         <header className="masthead">
           <div className="shell masthead__inner">
@@ -79,7 +79,6 @@ export default function RootLayout({
               bullscreener
             </Link>
             <Nav />
-            <ThemeToggle />
           </div>
         </header>
         <main>{children}</main>

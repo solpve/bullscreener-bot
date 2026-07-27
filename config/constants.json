@@ -57,7 +57,9 @@
     "priorityLevel": "high",
     "priorityMaxLamports": 1000000,
     "pollIntervalSec": 45,
-    "crankIntervalSec": 900
+    "crankIntervalSec": 900,
+    "minCrankLamports": 100000,
+    "_minCrankLamports": "Economics floor for the permissionless crank: skip a coin when the program reports fewer distributable lamports than this. The program's own dust check answers \"may this distribute?\" and will pass with ~0 lamports in the vault, but every crank costs ~5000 lamports of keeper float in tx fees — cranking dust just drains the burn wallet. 100000 lamports = 0.0001 SOL, ~20x the base fee. Fees skipped this pass stay in pump.fun's vaults and distribute on a later pass once they clear the floor; nothing is forfeited."
   },
   "listing": {
     "minMarketCapUsd": 200000,

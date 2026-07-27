@@ -225,6 +225,23 @@ export async function precheck(
 }
 
 /**
+ * Whether a reported distributable balance is too small to be worth a crank.
+ *
+ * The program's own dust check (`canDistribute`) answers "may this
+ * distribute?", not "is it worth a transaction?" — it happily passes with ~0
+ * lamports in the vault, and each crank spends ~5k lamports of keeper float on
+ * fees. Skipped fees are not forfeited: they stay in pump.fun's vaults and
+ * distribute on a later pass once they clear the floor.
+ */
+export function belowCrankFloor(
+  distributableFees: bigint,
+  minCrankLamports: number | undefined,
+): boolean {
+  if (minCrankLamports === undefined || minCrankLamports <= 0) return false;
+  return distributableFees < BigInt(minCrankLamports);
+}
+
+/**
  * Crank one coin. Returns without sending anything in DRY_RUN.
  *
  * Idempotency: both instructions are naturally idempotent — a second distribute
@@ -259,6 +276,16 @@ export async function crankCoin(
       status: 'skipped',
       coin,
       reason: `below dust: ${pre.minimum.distributableFees} < ${pre.minimum.minimumRequired} lamports`,
+      minimum: pre.minimum,
+    };
+  }
+  if (belowCrankFloor(pre.minimum.distributableFees, cfg.constants.keeper.minCrankLamports)) {
+    return {
+      status: 'skipped',
+      coin,
+      reason:
+        `not worth a crank: ${pre.minimum.distributableFees} distributable < ` +
+        `${cfg.constants.keeper.minCrankLamports} lamport floor`,
       minimum: pre.minimum,
     };
   }

@@ -68,6 +68,13 @@ export interface Constants {
     priorityMaxLamports: number;
     pollIntervalSec: number;
     crankIntervalSec: number;
+    /**
+     * optional: absent in synthetic test constants. Skip a coin's crank when
+     * the program reports fewer distributable lamports than this — a crank
+     * costs ~5k lamports in fees, and skipped fees simply distribute on a
+     * later pass once they clear the floor.
+     */
+    minCrankLamports?: number;
   };
   listing: {
     minMarketCapUsd: number;

@@ -246,6 +246,10 @@ export function loadConfig(
   if (cfg.maxSolPerSwapLamports < cfg.triggerLamports) {
     throw new ConfigError('keeper.maxSolPerSwap must be >= keeper.triggerSol');
   }
+  const minCrank = constants.keeper.minCrankLamports;
+  if (minCrank !== undefined && (!Number.isInteger(minCrank) || minCrank < 0)) {
+    throw new ConfigError('keeper.minCrankLamports must be a non-negative integer when set');
+  }
 
   return cfg;
 }

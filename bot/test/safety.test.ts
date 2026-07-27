@@ -7,6 +7,7 @@ import { ConfigError, loadConfig, readConstants, OPS_PLACEHOLDER } from '../src/
 import { runBuybackPass, SignerMismatchError, advanceCycle } from '../src/cycle.js';
 import { Ledger } from '../src/ledger.js';
 import { isNativeQuote, scanInflows } from '../src/attribution.js';
+import { belowCrankFloor } from '../src/crank.js';
 import type { KeeperConfig } from '../src/config.js';
 import type { CycleState } from '../src/types.js';
 
@@ -268,5 +269,19 @@ describe('ledger append is durable and append-only', () => {
     ledger.append({ type: 'burn', ts: 'z', cycleId: 'c', sig: 's3', amountRaw: '3', supplyAfter: null, dryRun: false });
     const burns = ledger.readAll().filter((e) => e.type === 'burn');
     expect(burns.map((b) => (b as { sig: string }).sig)).toEqual(['s1', 's2', 's3']);
+  });
+});
+
+describe('crank economics floor', () => {
+  it('skips below the floor, cranks at or above it', () => {
+    expect(belowCrankFloor(0n, 100_000)).toBe(true);
+    expect(belowCrankFloor(99_999n, 100_000)).toBe(true);
+    expect(belowCrankFloor(100_000n, 100_000)).toBe(false);
+    expect(belowCrankFloor(5_000_000n, 100_000)).toBe(false);
+  });
+
+  it('never skips when the floor is unset or zero', () => {
+    expect(belowCrankFloor(0n, undefined)).toBe(false);
+    expect(belowCrankFloor(0n, 0)).toBe(false);
   });
 });
