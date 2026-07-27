@@ -148,20 +148,7 @@ export default async function HomePage() {
           </h1>
 
           <p className="prose hero__lede">
-            {/* Present tense would assert that deployers are already doing
-                this. The table below is the only thing allowed to say how
-                many actually have. */}
-            Creator fees in. $ANSEM burned. Proved on-chain. One address,
-            two lanes: would-be cashback coins send the full{" "}
-            {bpsToPercent(shareToBurns)}, projects commit{" "}
-            {bpsToPercent(LISTING.tiers.partialMinBps)}+ and keep the rest
-            — either way it&rsquo;s locked by pump.fun&rsquo;s own program,
-            provably out of the dev&rsquo;s hands. The engine buys $ANSEM
-            and burns it, minus a disclosed {bpsToPercent(OPS_FEE.bps)}{" "}
-            keeper fee that moves in the open.{" "}
-            <strong>Permanent, verifiable supply reduction</strong>{" "}
-            — the only thing promised, because it&rsquo;s the only thing
-            the chain can prove.
+            When the trenches unite to send one single coin
           </p>
 
           <div className="hero__actions">
