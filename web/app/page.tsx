@@ -9,7 +9,7 @@ import StatStrip from "@/components/StatStrip";
 import ScreenerTable from "@/components/ScreenerTable";
 import ScreenerTabs from "@/components/ScreenerTabs";
 import Leaderboard from "@/components/Leaderboard";
-import StatusRibbon from "@/components/StatusRibbon";
+import AddressBar from "@/components/AddressBar";
 import EmbargoedAddress from "@/components/EmbargoedAddress";
 import { getListings } from "@/lib/listings";
 import { getStats } from "@/lib/stats";
@@ -104,8 +104,8 @@ export default async function HomePage() {
   ]);
 
   // One-way door: the address only ever reaches the HTML behind the launch
-  // flag. `buyback` above carries the wallet's SOL balance and nothing else —
-  // the address is never a prop of anything rendered here.
+  // flag — everything that renders it takes this gated value, never the
+  // constant directly.
   const bullAddress = SHOW_ADDRESS ? BULL_WALLET : null;
 
   // Same rule StatStrip applies: a zero we read is a fact, a zero we failed to
@@ -116,7 +116,6 @@ export default async function HomePage() {
     stats.solReceived > 0 ||
     stats.ansemBurnedByUs > 0;
 
-  const degradedErrors = [...stats.errors, ...market.errors, ...buyback.errors];
   const shareToBurns = SPLIT.shareholders[0]?.bps ?? 10_000;
 
   // The two lanes the screener tabs split on. Every discovered config lands in
@@ -127,12 +126,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <StatusRibbon
-        fetchedAt={listings.fetchedAt}
-        stale={listings.stale || stats.stale || market.stale || buyback.stale}
-        holdersProvider={listings.holdersProvider}
-        errors={degradedErrors}
-      />
+      <AddressBar address={bullAddress} />
 
       <section className="hero hero--stage">
         <div className="shell hero__stage">

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import StatusRibbon from '@/components/StatusRibbon';
+import AddressBar from '@/components/AddressBar';
 import { getActivity } from '@/lib/stats';
-import { ANSEM, PRE_EXISTING_BURNED_ANSEM } from '@/lib/constants';
+import { ANSEM, BULL_WALLET, PRE_EXISTING_BURNED_ANSEM } from '@/lib/constants';
+import { SHOW_ADDRESS } from '@/lib/flags';
 import { formatAmount, formatInt, formatSol, formatUtc, shortenAddress } from '@/lib/format';
 import { SOLSCAN } from '@/lib/links';
 
@@ -29,11 +30,7 @@ export default async function BurnsPage() {
 
   return (
     <>
-      <StatusRibbon
-        fetchedAt={activity.fetchedAt}
-        stale={activity.stale}
-        errors={activity.errors}
-      />
+      <AddressBar address={SHOW_ADDRESS ? BULL_WALLET : null} />
 
       <section className="hero">
         <div className="shell">

@@ -65,28 +65,11 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* The bull IS the cursor. One set everywhere — hover states carry the
-   affordance links would have gotten from the pointer hand. Text fields keep
-   the I-beam (usability beats theming where people type). */
-html,
-body,
 a,
 button,
 summary,
 [role="tab"] {
-  cursor: url("/images/cursor-bull.png") 16 4, auto;
-  cursor:
-    image-set(
-        url("/images/cursor-bull.png") 1x,
-        url("/images/cursor-bull@2x.png") 2x
-      )
-      16 4,
-    auto;
-}
-
-input,
-textarea {
-  cursor: auto;
+  cursor: pointer;
 }
 
 body {
@@ -385,7 +368,9 @@ button {
      content, so without this the nav pushes the whole page wider than the
      viewport on narrow screens. It must scroll inside itself instead. */
   min-width: 0;
-  flex: 1 1 auto;
+  /* Anchor the links to the right edge (auto margin, not flex-grow — a grown
+     nav starts its links mid-bar and leaves dead space on the right). */
+  margin-left: auto;
   justify-content: center;
 }
 
@@ -414,54 +399,35 @@ button {
   text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  padding: 0.3125rem 0.5rem;
-  flex: none;
-  transition:
-    color 0.15s ease,
-    border-color 0.15s ease;
-}
+/* ----------------------------------------------------------- addressbar -- */
 
-.theme-toggle:hover {
-  color: var(--ink);
-  border-color: var(--line-strong);
-}
-
-/* --------------------------------------------------------------- ribbon -- */
-
-.ribbon {
+/* The burn wallet, CA-bar style: one line under the masthead, click to copy.
+   Renders nothing while the address is embargoed. */
+.addressbar {
   border-bottom: 1px solid var(--line);
   background-color: var(--ground-deep);
 }
 
-.ribbon__inner {
+.addressbar__inner {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1.25rem;
+  justify-content: center;
+  gap: 0.375rem 0.875rem;
   padding-block: 0.5rem;
+}
+
+.addressbar__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
   font-size: 0.625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-faint);
 }
 
-.ribbon__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
-.ribbon__dot {
+.addressbar__dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -471,7 +437,7 @@ button {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ribbon__dot {
+  .addressbar__dot {
     animation: heartbeat 2.4s ease-in-out infinite;
   }
 }
@@ -486,9 +452,53 @@ button {
   }
 }
 
-.ribbon__dot--stale {
-  background-color: var(--warn);
-  box-shadow: 0 0 6px var(--warn);
+.addressbar__addr {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--line);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  transition: border-color 0.15s ease;
+}
+
+.addressbar__addr:hover {
+  border-color: var(--accent);
+}
+
+.addressbar__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.addressbar__copy {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex: none;
+}
+
+.addressbar__copy--done {
+  color: var(--pass);
+}
+
+.addressbar__scan {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  transition: color 0.15s ease;
+}
+
+.addressbar__scan:hover {
+  color: var(--accent);
 }
 
 /* --------------------------------------------------------------- ticker -- */
