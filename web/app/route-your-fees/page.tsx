@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: 'Route your fees',
   description:
     'Point your pump.fun coin’s creator fees at the burn wallet from pump.fun’s own interface — 100% full send or 20%+ project lane, no wallet connection to this site, ever. The steps, the fee, the listing criteria and the caveats, in full.',
+  alternates: { canonical: '/route-your-fees' },
 };
 
 /**

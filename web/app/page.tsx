@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ansemLogo from "@/public/ansem.png";
@@ -40,6 +41,10 @@ import {
 import { SOLSCAN } from "@/lib/links";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 const STEPS = [
   {

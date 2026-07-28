@@ -20,7 +20,9 @@ const display = Unbounded({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bullscreener.xyz'),
+  /* www is the canonical host — the apex 308s to it — so every absolute URL
+     search engines see (OG images, canonicals, sitemap) must be built on it. */
+  metadataBase: new URL('https://www.bullscreener.xyz'),
   title: {
     default: 'bullscreener — pump.fun creator fees, routed to $ANSEM burns',
     template: '%s — bullscreener',
@@ -59,12 +61,28 @@ export const viewport: Viewport = {
   themeColor: '#070d16',
 };
 
+/* Structured data for search. Facts only — the same claims the pages make:
+   what the site is, where it lives, what it looks like. No ratings, no
+   invented entities. */
+const JSON_LD = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'bullscreener',
+  url: 'https://www.bullscreener.xyz',
+  description:
+    'A public screener for pump.fun coins whose creator fees are routed — irreversibly by the deployer — into open-market $ANSEM buybacks and Token-2022 burns.',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={display.variable}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON_LD }}
+        />
         <header className="masthead">
           <div className="shell masthead__inner">
             <Link href="/" className="wordmark">

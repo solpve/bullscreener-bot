@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Burn log',
   description:
     'Every $ANSEM burn transaction signed by this project, with the SOL that funded it and a link to the transaction on Solscan.',
+  alternates: { canonical: '/burns' },
 };
 
 export default async function BurnsPage() {
