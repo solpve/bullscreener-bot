@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SOLSCAN } from '@/lib/links';
+import { GITHUB_REPO, SOLSCAN } from '@/lib/links';
 
 export default function Footer({
   ansemMint,
@@ -25,6 +25,17 @@ export default function Footer({
               <li className="muted">
                 Every number on this site is read from chain at request time.
                 There is no database.
+              </li>
+              <li>
+                <a
+                  className="link"
+                  href={GITHUB_REPO}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Source code on GitHub
+                </a>{' '}
+                — the keeper bot and this site, open for audit.
               </li>
             </ul>
           </div>

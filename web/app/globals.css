@@ -1764,22 +1764,15 @@ th.col-num {
      empty second row. */
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   gap: 1px;
-  background-color: var(--line);
-  border: 1px solid var(--line);
-}
-
-/* When the step count doesn't fill the last row (the deployer page runs five
-   steps), the leftover track would show as a slab of divider colour. This
-   filler claims the remainder and paints it as page ground instead. */
-.flow::after {
-  content: "";
-  grid-column: auto / -1;
-  min-height: 0;
-  background-color: var(--ground);
+  /* Dividers live on the steps (outlines merging across the 1px gap), not on
+     a painted container — so however many steps a page has (four here, five
+     on the deployer page) and wherever the row breaks, unfilled grid space
+     shows nothing instead of an empty outlined cell. */
 }
 
 .flow__step {
   background-color: var(--surface);
+  outline: 1px solid var(--line);
   padding: 1.375rem 1.25rem;
   transition:
     background-color 0.15s ease,
